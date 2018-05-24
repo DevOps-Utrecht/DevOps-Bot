@@ -17,7 +17,7 @@ setup(
         license='MIT',
         entry_points={
             'console_scripts': [
-                'startbot=devbot.bot:main'
+                'start=devbot.bot:main'
             ]
         }
     )
