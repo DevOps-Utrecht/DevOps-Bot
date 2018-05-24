@@ -6,8 +6,8 @@ from inspect import cleandoc
 from devbot.registry import Command, COMMAND_CATEGORIES
 
 
-@Command(['help', 'commands'])
-async def help(*_args, **_kwargs):
+@Command(['help', 'commands', 'list'])
+async def list_commands(*_args, **_kwargs):
     """ Print this help message. """
     return_list = []
     category_list = COMMAND_CATEGORIES.keys()
