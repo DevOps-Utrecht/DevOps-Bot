@@ -11,6 +11,7 @@ setup(
             'asyncio',
             'python-dotenv',
             'easy_logger',
+            'sqlalchemy'
             ],
         packages=['devbot'],
         zip_safe=False,
