@@ -3,6 +3,6 @@
 from devbot.registry import Command
 
 
-@Command(['ping'])
+@Command(["ping"])
 async def ping(*_args, **_kwargs):
     return "pong!"

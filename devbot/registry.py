@@ -58,13 +58,9 @@ class Command(RegisteringDecorator):
     def __call__(self, func):
         """ Register command category and call super. """
         if isinstance(self.name, str):
-            self.categories[self.category].append(
-                (self.name, None, func)
-            )
+            self.categories[self.category].append((self.name, None, func))
         else:
-            self.categories[self.category].append(
-                (self.name[0], self.name[1:], func)
-            )
+            self.categories[self.category].append((self.name[0], self.name[1:], func))
         return super().__call__(func)
 
 
@@ -78,7 +74,7 @@ async def safe_call(target_dict, key, *args, **kwargs):
 
     command_name = key.upper()
     if command_name not in target_dict:
-        raise CommandNotFoundError('Command not found: %s', key)
+        raise CommandNotFoundError("Command not found: %s", key)
 
     try:
         return await target_dict[key.upper()](*args, **kwargs)
@@ -86,6 +82,6 @@ async def safe_call(target_dict, key, *args, **kwargs):
         raise
     except Exception as e:
         del target_dict[key.upper()]
-        LOGGER.warning('Exception occurred, disabled %s', key)
+        LOGGER.warning("Exception occurred, disabled %s", key)
         LOGGER.exception(e)
         return "Something is wrong, command disabled."

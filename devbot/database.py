@@ -8,17 +8,22 @@ from sqlalchemy.orm import sessionmaker
 import dotenv
 
 # Load environment variables using dotenv.
-dotenv.load_dotenv('.env')
+dotenv.load_dotenv(".env")
 
 # Set database URL or use SQLite if none is given
-db_url = os.environ.get('DATABASE') if os.environ.get('DATABASE') else "sqlite:///database.sqlite"
+db_url = (
+    os.environ.get("DATABASE")
+    if os.environ.get("DATABASE")
+    else "sqlite:///database.sqlite"
+)
 
 SQLAlchemyBase = declarative_base()
 engine = sa.create_engine(db_url, echo=False)
 Session = sessionmaker(bind=engine)
 
+
 class User(SQLAlchemyBase):
-    __tablename__ = 'user'
+    __tablename__ = "user"
     # https://discordapp.com/developers/docs/resources/user
     id = sa.Column(sa.String(32), primary_key=True)
     username = sa.Column(sa.String(32))
@@ -28,8 +33,6 @@ class User(SQLAlchemyBase):
     mfa_enabled = sa.Column(sa.Boolean)
     verified = sa.Column(sa.Boolean)
     email = sa.Column(sa.String(32))
-
-
 
 
 SQLAlchemyBase.metadata.create_all(engine)
