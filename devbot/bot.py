@@ -8,6 +8,7 @@ import dotenv
 import devbot.commands
 from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
 from devbot.tools.logging import get_logger
+from devbot.tools.filewrapper import FileWrapper
 
 CLIENT = discord.Client()
 #: The main discord client.
@@ -48,6 +49,8 @@ async def on_message(message):
 
         if isinstance(response, discord.Embed):
             await CLIENT.send_message(message.channel, embed=response)
+        elif isinstance(response, FileWrapper):
+            await CLIENT.send_file(message.channel, response.name)
         else:
             await CLIENT.send_message(message.channel, response)
 
