@@ -9,4 +9,4 @@ from devbot.tools import api_requests as API
 async def xkcd(*_args, **_kwargs) -> str:
     url = "https://xkcd.com/info.0.json"
     latest_xkcd = await API.get_json(url)
-    return latet_xkcd['img']
+    return latest_xkcd['img']
