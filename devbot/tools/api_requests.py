@@ -14,7 +14,7 @@ async def get_json(url, *params):
     parameters = [p for p in params]  # Make a list of tuples
     async with aiohttp.get(url, params=parameters) as r:
         if r.status == 200:
-            json = r.json()
+            json = await r.json()
             return json
         else:
             raise APIAccessError(f"HTTP status code {r.status} was returned")
@@ -29,7 +29,7 @@ async def get_text(url, *params):
     parameters = [p for p in params]  # Make a list of tuples
     async with aiohttp.get(url, params=parameters) as r:
         if r.status == 200:
-            t = r.text(encoding="utf-8")
+            t = await r.text(encoding="utf-8")
             return t
         else:
             raise APIAccessError(f"HTTP status code {r.status} was returned")
