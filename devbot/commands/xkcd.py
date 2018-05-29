@@ -8,5 +8,5 @@ from devbot.tools import api_requests as API
 @Command(["xkcd"])
 async def xkcd(*_args, **_kwargs) -> str:
     url = "https://xkcd.com/info.0.json"
-    image_url = API.get_text(url, ("data", "img"))
-    return image_url
+    latest_xkcd = await API.get_json(url)
+    return latest_xkcd['img']
