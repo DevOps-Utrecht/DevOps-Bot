@@ -4,7 +4,9 @@
 
 import os.path
 
+
 class FileWrapper:
+
     def __init__(self, filename):
         if os.path.exists(filename):
             self.file = filename
