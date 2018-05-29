@@ -1,7 +1,4 @@
 """ Latest XKCD command. """
-import json
-import urllib.request
-
 from devbot.registry import Command
 from devbot.tools import api_requests as API
 
