@@ -1,11 +1,19 @@
 """ Latest XKCD command. """
 from sqlalchemy import or_
+import discord
 import devbot.database as db
 from devbot.registry import Command
 from devbot.tools import api_requests as API
 
+
+def embed(title, image_url) -> discord.Embed:
+    result = discord.Embed()
+    result.title = title
+    result.set_image(url=image_url)
+    return result
+
 @Command(["xkcd"])
-async def xkcd(message_contents, *_args, **_kwargs) -> str:
+async def xkcd(message_contents, *_args, **_kwargs) -> (str, discord.Embed):
     url = "https://xkcd.com/info.0.json"  # latest XKCD
 
     if message_contents:
@@ -23,7 +31,7 @@ async def xkcd(message_contents, *_args, **_kwargs) -> str:
                                                   )).first()
         session.close()
         if entry:
-            return entry.img
+            return embed(entry.safe_title, entry.img)
 
     # retrieve comic meta data
     try:
@@ -37,4 +45,4 @@ async def xkcd(message_contents, *_args, **_kwargs) -> str:
     session.merge(entry)
     session.commit()
 
-    return xkcd_json['img']
+    return embed(xkcd_json.get("safe_title"), xkcd_json['img'])
