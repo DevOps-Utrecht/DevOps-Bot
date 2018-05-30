@@ -22,18 +22,19 @@ except ImportError:
     tqdm = list
 
 
-def get_xkcd(num:int=None) -> dict or None:
+def get_xkcd(num: int = None) -> dict or None:
     """Retrieve a xkcd comic by it's number"""
     if num:
-        url = f'https://xkcd.com/{num}/info.0.json'
+        url = f"https://xkcd.com/{num}/info.0.json"
     else:
-        url = 'https://xkcd.com/info.0.json'
+        url = "https://xkcd.com/info.0.json"
     r = requests.get(url)
     try:
         data = json.loads(r.text)
         return data
     except json.decoder.JSONDecodeError:
         return
+
 
 def main():
     """Crawl all comic data and add it to the database"""

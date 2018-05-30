@@ -35,4 +35,20 @@ class User(SQLAlchemyBase):
     email = sa.Column(sa.String(32))
 
 
+class XKCD(SQLAlchemyBase):
+    __tablename__ = "xkcd"
+    # https://xkcd.com/info.0.json
+    num = sa.Column(sa.Integer(), primary_key=True)
+    img = sa.Column(sa.String(64))
+    title = sa.Column(sa.String(32))
+    safe_title = sa.Column(sa.String(32))
+    alt = sa.Column(sa.String(256))
+    transcript = sa.Column(sa.String(32))
+    link = sa.Column(sa.String(32))
+    news = sa.Column(sa.String(32))
+    day = sa.Column(sa.String(2))
+    month = sa.Column(sa.String(2))
+    year = sa.Column(sa.String(4))
+
+
 SQLAlchemyBase.metadata.create_all(engine)
