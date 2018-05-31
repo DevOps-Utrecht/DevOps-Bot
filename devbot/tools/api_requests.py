@@ -3,7 +3,9 @@
 """
 
 import aiohttp
+import logging
 
+LOGGER = logging.getLogger(__name__)
 
 async def get_json(url, *params):
     """
@@ -17,6 +19,7 @@ async def get_json(url, *params):
             json = await r.json()
             return json
         else:
+            LOGGER.error(f"Status code {r.status} returned from {r.url}")
             raise APIAccessError(f"HTTP status code {r.status} was returned")
 
 
@@ -32,6 +35,7 @@ async def get_text(url, *params):
             t = await r.text(encoding="utf-8")
             return t
         else:
+            LOGGER.error(f"Status code {r.status} returned from {r.url}")
             raise APIAccessError(f"HTTP status code {r.status} was returned")
 
 

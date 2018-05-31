@@ -2,11 +2,11 @@
     Plugins folder to house all modular command files.
 """
 
-from devbot.tools.logging import get_logger
+import logging
 import os.path
 import importlib
 
-LOGGER = get_logger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 def load_plugins():

@@ -5,9 +5,9 @@
 """
 
 from collections import defaultdict
-from devbot.tools.logging import get_logger
+import logging
 
-LOGGER = get_logger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 class RegisteringDecorator(object):
