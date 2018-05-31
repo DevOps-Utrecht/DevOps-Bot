@@ -16,7 +16,7 @@ def embed(title, image_url) -> discord.Embed:
 
 
 @Command(["xkcd"])
-async def xkcd(message_contents, *_args, **_kwargs) -> (str, discord.Embed):
+async def xkcd(message_contents, *_args, **_kwargs) -> str or discord.Embed:
     """ Returns a xkcd comic """
     url = "https://xkcd.com/info.0.json"  # latest xkcd
 

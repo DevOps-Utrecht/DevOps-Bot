@@ -7,7 +7,6 @@ Optional: tqdm
 """
 import json
 import devbot.database as db
-from devbot.tools import api_requests
 
 try:
     import requests
@@ -48,7 +47,7 @@ def main():
         try:
             xkcd = get_xkcd(n)
             session.merge(db.XKCD(**xkcd))
-        except (api_requests.APIAccessError, TypeError):
+        except TypeError:
             warning.append(n)
 
     if warning:
