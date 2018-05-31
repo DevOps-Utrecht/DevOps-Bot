@@ -2,7 +2,7 @@
 Retrieve all xkcd meta data
 Expected runtime 3.5 minutes
 
-Requierment: requests
+Requirement: requests
 Optional: tqdm
 """
 import json
@@ -23,7 +23,7 @@ except ImportError:
 
 
 def get_xkcd(num: int = None) -> dict or None:
-    """Retrieve a xkcd comic by it's number"""
+    """Retrieve a xkcd comic by its number"""
     if num:
         url = f"https://xkcd.com/{num}/info.0.json"
     else:
@@ -52,7 +52,7 @@ def main():
             warning.append(n)
 
     if warning:
-        print(f"[WARNING] unable to retrieve these comics: {', '.join(warning)}")
+        print(f"[WARNING] Unable to retrieve these comics: {', '.join(warning)}")
 
     print("Updating the database...")
     session.commit()
