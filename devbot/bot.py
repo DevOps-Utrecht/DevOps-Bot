@@ -60,6 +60,9 @@ def main():
     # Load environment variables using dotenv.
     dotenv.load_dotenv(".env")
 
+    # set up logger
+    logging_setup()
+
     # Load commands
     devbot.commands.load_plugins()
 
@@ -68,15 +71,21 @@ def main():
 
 
 def logging_setup():
+    file_level = logging.DEBUG
+    console_level = logging.INFO
+    if "FILE_LOGLEVEL" in os.environ.keys():
+        file_level = os.environ["FILE_LOGLEVEL"]
+    if "CONSOLE_LOGLEVEL" in os.environ.keys():
+        console_level = os.environ["CONSOLE_LOGLEVEL"]
     # Set up basic functions to log to a file
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=file_level,
                         format="%(asctime)s %(levelname)-8s-%(name)-12s: %(message)s",
                         datefmt="%y-%m-%d %H:%M",
                         filename=f"./logs/bot.log",
                         filemode="w")
     # Make a console handler to pass INFO+ messages to console
     console = logging.StreamHandler()
-    console.setLevel(logging.INFO)
+    console.setLevel(console_level)
     # Set up logging formatter for console
     formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
     console.setFormatter(formatter)
@@ -84,8 +93,6 @@ def logging_setup():
 
 
 if __name__ == "__main__":
-    # set up logger
-    logging_setup()
     main()
 
 

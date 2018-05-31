@@ -66,3 +66,13 @@ async def echo_command(message_contents, *_args, **_kwargs):
     """ On !echo string or !repeat string replies with string """
     return ' '.join(message_contents)
 ```
+
+## Supported optional `.env` tokens
+
+`CONSOLE_LOGLEVEL` sets the loglevel of what log messages get sent to the console. This value can be `DEBUG`, `INFO`
+*(Default)*, `WARNING`, `ERROR` and `CRITICAL`.
+
+`FILE_LOGLEVEL` sets the loglevel of what log messages get sent to the log file (`/logs/bot.log`). This value
+ can be 
+`DEBUG` *(Default)*, `INFO`
+, `WARNING`, `ERROR` and `CRITICAL`.
