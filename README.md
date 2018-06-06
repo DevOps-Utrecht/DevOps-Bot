@@ -67,7 +67,7 @@ async def echo_command(message_contents, *_args, **_kwargs):
     return ' '.join(message_contents)
 ```
 
-## Supported optional `.env` tokens
+## Supported optional `.env` variables
 
 `CONSOLE_LOGLEVEL` sets the loglevel of what log messages get sent to the console. This value can be `DEBUG`, `INFO`
 *(Default)*, `WARNING`, `ERROR` and `CRITICAL`.
