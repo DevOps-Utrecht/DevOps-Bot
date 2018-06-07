@@ -4,11 +4,16 @@
 
 import os
 import discord
+import datetime
+import asyncio
 import dotenv
 import logging
 import devbot.commands
+import devbot.database as db
 from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
 from devbot.tools.wrap import FileWrapper
+from devbot.tools.delay import TASK_QUEUE, schedule_from_database
+from sqlalchemy import and_
 
 CLIENT = discord.Client()
 #: The main discord client.
@@ -16,6 +21,34 @@ LOGGER = logging.getLogger(__name__)
 #: An Easy_logger instance.
 SYMBOL = "!"
 #: The command symbol
+
+
+async def task_scheduler():
+    """ Sets a repeating task that checks whether there are messages to be sent. """
+    await CLIENT.wait_until_ready()
+    while not CLIENT.is_closed:
+        LOGGER.debug("Checking schedule")
+        while not TASK_QUEUE.empty():
+            timestamp, _task_id, message, _channel = TASK_QUEUE.queue[0]
+            LOGGER.debug(f"{timestamp}, {message} at Queue HEAD")
+            if timestamp > datetime.datetime.now().timestamp():
+                break
+            timestamp, task_id, message, channel = TASK_QUEUE.get()
+
+            if isinstance(message, discord.Embed):
+                await CLIENT.send_message(channel, embed=message)
+            elif isinstance(message, FileWrapper):
+                await CLIENT.send_file(channel, message.name)
+            else:
+                await CLIENT.send_message(channel, message)
+
+            # Set database to executed
+            session = db.Session()
+            entry = (session.query(db.Task).filter(db.Task.id == task_id).first())
+            entry.executed = True
+            session.commit()
+
+        await asyncio.sleep(10)  # Sleep for 10 seconds
 
 
 @CLIENT.event
@@ -65,6 +98,12 @@ def main():
 
     # Load commands
     devbot.commands.load_plugins()
+
+    # Load schedule from database
+    schedule_from_database()
+
+    # Add the command scheduler as task
+    CLIENT.loop.create_task(task_scheduler())
 
     # Connect to discord.
     CLIENT.run(os.environ["TOKEN"])
