@@ -76,3 +76,9 @@ async def echo_command(message_contents, *_args, **_kwargs):
  can be 
 `DEBUG` *(Default)*, `INFO`
 , `WARNING`, `ERROR` and `CRITICAL`.
+
+`REMINDER_CHANNEL` sets the default channel id. Any delayed message without a 
+specific channel passed will use this channel to post to. Channel id can be found  by
+ following the steps in [this discord support post](https://support.discordapp
+ .com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID 
+ "Discord support post")
