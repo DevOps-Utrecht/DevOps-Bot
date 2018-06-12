@@ -4,15 +4,11 @@
 
 import os
 import discord
-import datetime
-import asyncio
 import dotenv
 import logging
 import devbot.commands
-import devbot.database as db
 from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
 from devbot.tools.wrap import FileWrapper
-from sqlalchemy import and_
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
