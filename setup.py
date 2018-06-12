@@ -13,6 +13,9 @@ setup(
         "sqlalchemy",
         "apscheduler",
     ],
+    extras_require={
+        "dev": ["black", "pylint"],
+    },
     packages=["devbot", "devbot.commands", "devbot.tools"],
     zip_safe=False,
     license="MIT",
