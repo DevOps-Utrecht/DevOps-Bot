@@ -66,6 +66,7 @@ class Command(RegisteringDecorator):
 
 class CommandNotFoundError(Exception):
     """ Exception for when the command is unknown. """
+
     pass
 
 
