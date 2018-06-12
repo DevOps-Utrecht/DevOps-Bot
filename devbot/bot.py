@@ -12,8 +12,9 @@ import devbot.commands
 import devbot.database as db
 from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
 from devbot.tools.wrap import FileWrapper
-from devbot.tools.delay import TASK_QUEUE, schedule_from_database
 from sqlalchemy import and_
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 CLIENT = discord.Client()
 #: The main discord client.
@@ -22,33 +23,18 @@ LOGGER = logging.getLogger(__name__)
 SYMBOL = "!"
 #: The command symbol
 
+# Import Database Url
+db_url = (
+    os.environ.get("DATABASE")
+    if os.environ.get("DATABASE")
+    else "sqlite:///database.sqlite"
+)
 
-async def task_scheduler():
-    """ Sets a repeating task that checks whether there are messages to be sent. """
-    await CLIENT.wait_until_ready()
-    while not CLIENT.is_closed:
-        LOGGER.debug("Checking schedule")
-        while not TASK_QUEUE.empty():
-            timestamp, _task_id, message, _channel = TASK_QUEUE.queue[0]
-            LOGGER.debug(f"{timestamp}, {message} at Queue HEAD")
-            if timestamp > datetime.datetime.now().timestamp():
-                break
-            timestamp, task_id, message, channel = TASK_QUEUE.get()
+# Jobstore
+jobstores = {"default": SQLAlchemyJobStore(url=db_url)}
 
-            if isinstance(message, discord.Embed):
-                await CLIENT.send_message(channel, embed=message)
-            elif isinstance(message, FileWrapper):
-                await CLIENT.send_file(channel, message.name)
-            else:
-                await CLIENT.send_message(channel, message)
-
-            # Set database to executed
-            session = db.Session()
-            entry = (session.query(db.Task).filter(db.Task.id == task_id).first())
-            entry.executed = True
-            session.commit()
-
-        await asyncio.sleep(10)  # Sleep for 10 seconds
+# Setup apscheduler
+SCHEDULER = AsyncIOScheduler(jobstores=jobstores)
 
 
 @CLIENT.event
@@ -80,12 +66,16 @@ async def on_message(message):
         if not response:
             return
 
-        if isinstance(response, discord.Embed):
-            await CLIENT.send_message(message.channel, embed=response)
-        elif isinstance(response, FileWrapper):
-            await CLIENT.send_file(message.channel, response.name)
-        else:
-            await CLIENT.send_message(message.channel, response)
+        await send_response(response, message.channel)
+
+
+async def send_response(response, channel):
+    if isinstance(response, discord.Embed):
+        await CLIENT.send_message(channel, embed=response)
+    elif isinstance(response, FileWrapper):
+        await CLIENT.send_file(channel, response.name)
+    else:
+        await CLIENT.send_message(channel, response)
 
 
 def main():
@@ -99,11 +89,8 @@ def main():
     # Load commands
     devbot.commands.load_plugins()
 
-    # Load schedule from database
-    schedule_from_database()
-
-    # Add the command scheduler as task
-    CLIENT.loop.create_task(task_scheduler())
+    # Start the scheduler
+    SCHEDULER.start()
 
     # Connect to discord.
     CLIENT.run(os.environ["TOKEN"])
@@ -117,21 +104,21 @@ def logging_setup():
     if "CONSOLE_LOGLEVEL" in os.environ.keys():
         console_level = os.environ["CONSOLE_LOGLEVEL"]
     # Set up basic functions to log to a file
-    logging.basicConfig(level=file_level,
-                        format="%(asctime)s %(levelname)-8s-%(name)-12s: %(message)s",
-                        datefmt="%y-%m-%d %H:%M",
-                        filename=f"./logs/bot.log",
-                        filemode="w")
+    logging.basicConfig(
+        level=file_level,
+        format="%(asctime)s %(levelname)-8s-%(name)-12s: %(message)s",
+        datefmt="%y-%m-%d %H:%M",
+        filename=f"./logs/bot.log",
+        filemode="w",
+    )
     # Make a console handler to pass INFO+ messages to console
     console = logging.StreamHandler()
     console.setLevel(console_level)
     # Set up logging formatter for console
-    formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+    formatter = logging.Formatter("%(name)-12s: %(levelname)-8s %(message)s")
     console.setFormatter(formatter)
     logging.getLogger("").addHandler(console)
 
 
 if __name__ == "__main__":
     main()
-
-

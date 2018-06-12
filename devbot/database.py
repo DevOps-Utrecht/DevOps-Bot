@@ -60,15 +60,4 @@ class XKCD(SQLAlchemyBase):
     year = sa.Column(sa.String(4))
 
 
-class Task(SQLAlchemyBase):
-    __tablename__ = "task"
-    # Representation of a task to be delayed
-    id = sa.Column(sa.Integer(), primary_key=True)
-    datetime = sa.Column(sa.DateTime())
-    channel = sa.Column(sa.String(64))  # Stores the channel-id of the output channel
-    type = sa.Column(sa.Enum(ReturnType))
-    value = sa.Column(sa.String())
-    executed = sa.Column(sa.Boolean())
-
-
 SQLAlchemyBase.metadata.create_all(engine)
