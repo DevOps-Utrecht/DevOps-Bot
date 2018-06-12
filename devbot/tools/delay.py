@@ -16,24 +16,9 @@ DEFAULT_CHANNEL = os.environ.get("REMINDER_CHANNEL")
 LOGGER = logging.getLogger(__name__)
 
 
-async def schedule_message(delay, message, channel=None):
-    """ Schedules the message on DateTime entered. """
-    if channel is None:
-        if DEFAULT_CHANNEL:
-            channel = discord.Object(id=DEFAULT_CHANNEL)
-        else:
-            raise ValueError(
-                f"Default channel not set, add REMINDER_CHANNEL=<id> to the .env file"
-            )
-    dt = datetime.datetime.now() + datetime.timedelta(seconds=delay)
-    job = SCHEDULER.add_job(
-        send_response, trigger="date", run_date=dt, args=[message, channel]
-    )
-
-
 async def delay_message(delay, message, channel=None):
     """ Returns the message after delay or, if delay is of type datetime/time at that time. """
-    if channel is None:
+    if not channel:
         if DEFAULT_CHANNEL:
             channel = discord.Object(id=DEFAULT_CHANNEL)
         else:
@@ -42,7 +27,7 @@ async def delay_message(delay, message, channel=None):
     # If delay is a datetime return at given time
     if isinstance(delay, datetime.datetime):
         if delay < datetime.datetime.now():
-            return "Time is in the past dummy."
+            return "Time is in the past, dummy!"
         job = SCHEDULER.add_job(
             send_response, trigger="date", run_date=delay, args=[message, channel]
         )
@@ -50,7 +35,7 @@ async def delay_message(delay, message, channel=None):
     # If delay is time return at time on same date
     elif isinstance(delay, datetime.time):
         if delay < datetime.datetime.now().time():
-            return "Time is in the past dummy."
+            return "Time is in the past, dummy!"
         dt = datetime.combine(datetime.date.today(), delay)
         job = SCHEDULER.add_job(
             send_response, trigger="date", run_date=dt, args=[message, channel]
@@ -66,7 +51,7 @@ async def delay_message(delay, message, channel=None):
     # If we get an int take it as seconds
     elif isinstance(delay, int):
         if delay < 0:
-            return "I cant delay into the past dummy."
+            return "I cant delay into the past, dummy!"
         dt = datetime.datetime.now() + datetime.timedelta(seconds=delay)
         job = SCHEDULER.add_job(
             send_response, trigger="date", run_date=dt, args=[message, channel]

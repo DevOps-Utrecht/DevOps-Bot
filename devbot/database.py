@@ -5,16 +5,7 @@ import os
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import enum
 import dotenv
-
-
-@enum.unique
-class ReturnType(enum.Enum):
-    string = 0
-    file = 1
-    embed = 2
-
 
 # Load environment variables using dotenv.
 dotenv.load_dotenv(".env")

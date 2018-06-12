@@ -7,6 +7,7 @@ import discord
 import dotenv
 import logging
 import devbot.commands
+from devbot.database import db_url
 from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
 from devbot.tools.wrap import FileWrapper
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -18,13 +19,6 @@ LOGGER = logging.getLogger(__name__)
 #: An Easy_logger instance.
 SYMBOL = "!"
 #: The command symbol
-
-# Import Database Url
-db_url = (
-    os.environ.get("DATABASE")
-    if os.environ.get("DATABASE")
-    else "sqlite:///database.sqlite"
-)
 
 # Jobstore
 jobstores = {"default": SQLAlchemyJobStore(url=db_url)}
@@ -93,12 +87,9 @@ def main():
 
 
 def logging_setup():
-    file_level = logging.DEBUG
-    console_level = logging.INFO
-    if "FILE_LOGLEVEL" in os.environ.keys():
-        file_level = os.environ["FILE_LOGLEVEL"]
-    if "CONSOLE_LOGLEVEL" in os.environ.keys():
-        console_level = os.environ["CONSOLE_LOGLEVEL"]
+    file_level = os.environ.get("FILE_LOGLEVEL", logging.DEBUG)
+    console_level = os.environ.get("CONSOLE_LOGLEVEL", logging.INFO)
+
     # Set up basic functions to log to a file
     logging.basicConfig(
         level=file_level,

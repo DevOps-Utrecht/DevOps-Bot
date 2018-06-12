@@ -7,6 +7,7 @@ import logging
 
 LOGGER = logging.getLogger(__name__)
 
+
 async def get_json(url, *params):
     """
         Sends a request to a RESTfull API and returns it's JSON
