@@ -17,7 +17,7 @@ def load_plugins():
     LOGGER.info("Importing files from %s", root)
 
     for _root, _dirs, files in os.walk(root):
-        python_files = [file for file in files if file.endswith(".py")]
+        python_files = [file for file in files if file.endswith(".py") and file != "__init__.py"]
         for plugin in python_files:
             plugin_name = plugin[:-3]  # Strip extension
             LOGGER.info("Loading plugin %s", plugin_name)
