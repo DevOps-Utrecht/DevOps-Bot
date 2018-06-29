@@ -1,9 +1,5 @@
 language: python
 python:
 - 3.6
-before_install:
-- touch .env
-install:
-- python setup.py install
 script:
-- start
+- python setup.py install
