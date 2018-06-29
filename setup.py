@@ -1,6 +1,8 @@
 from setuptools import setup
+import pathlib
 from devbot import VERSION
 
+required_dirs = ['logs']
 
 setup(
     name="devbot",
@@ -21,3 +23,5 @@ setup(
     license="MIT",
     entry_points={"console_scripts": ["start=devbot.bot:main"]},
 )
+
+[pathlib.Path(dir).mkdir(exist_ok=True) for dir in required_dirs]
