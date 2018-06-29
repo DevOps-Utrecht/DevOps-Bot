@@ -33,7 +33,8 @@ use: `python setup.py install` or `python setup.py develop`
 5. Make a .env file.
 
 Create a `.env` file in the root directory and place the required variables in it, for example:
-```TOKEN=1234567890
+```
+TOKEN=1234567890
 DEFAULT_CHANNEL=461951313547362318
 ````
  Check the end of this README for more info.
