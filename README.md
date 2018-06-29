@@ -32,7 +32,11 @@ use: `python setup.py install` or `python setup.py develop`
 
 5. Make a .env file.
 
-Create a `.env` file in the root directory containing `TOKEN=<Your Discord Token>`.
+Create a `.env` file in the root directory and place the required variables in it, for example:
+```TOKEN=1234567890
+DEFAULT_CHANNEL=461951313547362318
+````
+ Check the end of this README for more info.
 
 
 6. Run the bot
@@ -67,17 +71,23 @@ async def echo_command(message_contents, *_args, **_kwargs):
     return ' '.join(message_contents)
 ```
 
-## Supported optional `.env` variables
+## Required `.env` variables
+`TOKEN` sets the Discord API key, which you can get from [this website](https://discordapp.com/developers/applications/me).
+
+`DEFAULT_CHANNEL` sets the default channel id for the bot to use. 
+The channel id can be found by following the steps in [this discord support post](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID
+ "Discord support post")
+
+## Optional `.env` variables
 
 `CONSOLE_LOGLEVEL` sets the loglevel of what log messages get sent to the console. This value can be `DEBUG`, `INFO`
 *(Default)*, `WARNING`, `ERROR` and `CRITICAL`.
 
 `FILE_LOGLEVEL` sets the loglevel of what log messages get sent to the log file (`/logs/bot.log`). This value
- can be 
-`DEBUG` *(Default)*, `INFO`
-, `WARNING`, `ERROR` and `CRITICAL`.
+ can be `DEBUG` *(Default)*, `INFO`, `WARNING`, `ERROR` and `CRITICAL`.
+
+`DATABASE` sets the url to the database for the bot. A SQLite database will be created automatically if this variable is missing. 
+Using a different database than SQLite, might require installing additional dependencies.
 
 `REMINDER_CHANNEL` sets the default channel id. Any delayed message without a 
-specific channel passed will use this channel to post to. Channel id can be found  by
- following the steps in [this discord support post](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID 
- "Discord support post")
+specific channel passed will use this channel to post to.
