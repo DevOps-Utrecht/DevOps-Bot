@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Retrieve all xkcd meta data
 Expected runtime 3.5 minutes
