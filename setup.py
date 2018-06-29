@@ -1,6 +1,11 @@
+import sys
 from setuptools import setup
-import pathlib
 from devbot import VERSION
+try:
+    import pathlib
+except ImportError:
+    raise ImportError('Install requires Python>=3.4')
+
 
 required_dirs = ["logs"]
 
