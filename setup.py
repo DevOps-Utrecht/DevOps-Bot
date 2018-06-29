@@ -2,7 +2,7 @@ from setuptools import setup
 import pathlib
 from devbot import VERSION
 
-required_dirs = ['logs']
+required_dirs = ["logs"]
 
 setup(
     name="devbot",
@@ -16,7 +16,7 @@ setup(
         "sqlalchemy",
         "apscheduler",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
     packages=["devbot", "devbot.commands", "devbot.tools"],
     scripts=["scripts/xkcd_crawler.py"],
     zip_safe=False,
