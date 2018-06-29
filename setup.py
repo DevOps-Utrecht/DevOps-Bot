@@ -1,6 +1,7 @@
 from setuptools import setup
 from devbot import VERSION
 
+
 setup(
     name="devbot",
     version=VERSION,
@@ -13,6 +14,7 @@ setup(
         "sqlalchemy",
         "apscheduler",
     ],
+    python_requires='>=3.6',
     packages=["devbot", "devbot.commands", "devbot.tools"],
     scripts=["scripts/xkcd_crawler.py"],
     zip_safe=False,
