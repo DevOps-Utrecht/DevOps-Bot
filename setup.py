@@ -14,6 +14,7 @@ setup(
         "apscheduler",
     ],
     packages=["devbot", "devbot.commands", "devbot.tools"],
+    scripts=["scripts/xkcd_crawler.py"],
     zip_safe=False,
     license="MIT",
     entry_points={"console_scripts": ["start=devbot.bot:main"]},
