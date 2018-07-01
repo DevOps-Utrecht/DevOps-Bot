@@ -3,10 +3,11 @@ python:
 - 3.6
 before_install:
 - touch .env
-- git show master:devbot/__init__.py > CURRENT_VERSION
+- git fetch origin master
+- 'if [ $TRAVIS_PULL_REQUEST != "false" ]; then git show FETCH_HEAD:devbot/__init__.py > CURRENT_VERSION; fi'
 install:
 - pip install -e ".[dev]"
 script:
 - black --check devbot
 - pylint devbot
-- diff -sq CURRENT_VERSION setup.py; if [[ $? -eq 0 ]]; then echo 1; fi; echo 0;
+- 'if [ $TRAVIS_PULL_REQUEST != "false" ]; then diff -sq CURRENT_VERSION setup.py; if [[ $? -eq 0 ]]; then exit 1; fi; exit 0; fi;'
