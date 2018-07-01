@@ -28,4 +28,5 @@ setup(
     entry_points={"console_scripts": ["start=devbot.bot:main"]},
 )
 
-[pathlib.Path(dir).mkdir(exist_ok=True) for dir in required_dirs]
+for required_dir in required_dirs:
+    pathlib.Path(required_dir).mkdir(exist_ok=True)
