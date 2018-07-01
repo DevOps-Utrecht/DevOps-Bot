@@ -6,6 +6,7 @@ import os.path
 
 
 class FileWrapper:
+    """ A wrapper for files so we can send files easily """
     def __init__(self, filename):
         if os.path.exists(filename):
             self.file = filename
@@ -14,4 +15,5 @@ class FileWrapper:
 
     @property
     def name(self):
+        """ Return the file's name. """
         return self.file

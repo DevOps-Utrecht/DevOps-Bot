@@ -9,6 +9,7 @@ from devbot.tools import api_requests
 
 
 def embed(title, image_url) -> discord.Embed:
+    """ Build an Embed with the given image URL. """
     result = discord.Embed()
     result.title = title
     result.set_image(url=image_url)
@@ -23,15 +24,11 @@ async def xkcd(message_contents, *_args, **_kwargs) -> str or discord.Embed:
     if message_contents:
         if len(message_contents) == 1:
             # return comic by number
-            if message_contents[0].split() == [
-                c for c in message_contents[0] if c.isdigit()
-            ]:
+            if all(map(str.isdigit, message_contents[0].strip())):
                 url = f"https://xkcd.com/{message_contents[0]}/info.0.json"
 
             # return random comic
-            elif message_contents[0].split() == [
-                c for c in message_contents[0] if c == "?"
-            ]:
+            elif message_contents[0].strip() == "?":
                 try:
                     # most recent comic from url
                     xkcd_json = await api_requests.get_json(url)

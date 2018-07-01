@@ -67,7 +67,9 @@ class Command(RegisteringDecorator):
 class CommandNotFoundError(Exception):
     """ Exception for when the command is unknown. """
 
-    pass
+    def __init__(self, command):
+        message = f"Command not found: {command}"
+        super().__init__(message)
 
 
 async def safe_call(target_dict, key, *args, **kwargs):
@@ -75,14 +77,14 @@ async def safe_call(target_dict, key, *args, **kwargs):
 
     command_name = key.upper()
     if command_name not in target_dict:
-        raise CommandNotFoundError("Command not found: %s", key)
+        raise CommandNotFoundError(key)
 
     try:
         return await target_dict[key.upper()](*args, **kwargs)
     except (NameError, TypeError):
         raise
-    except Exception as e:
+    except Exception as exc:  # pylint: disable=broad-except
         del target_dict[key.upper()]
         LOGGER.warning("Exception occurred, disabled %s", key)
-        LOGGER.exception(e)
+        LOGGER.exception(exc)
         return "Something is wrong, command disabled."

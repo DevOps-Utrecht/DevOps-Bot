@@ -21,6 +21,9 @@ setup(
         "apscheduler",
     ],
     python_requires=">=3.6",
+    extras_require={
+        "dev": ["black", "pylint"],
+    },
     packages=["devbot", "devbot.commands", "devbot.tools"],
     scripts=["scripts/xkcd_crawler.py"],
     zip_safe=False,

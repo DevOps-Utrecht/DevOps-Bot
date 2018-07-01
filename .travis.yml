@@ -1,5 +1,11 @@
 language: python
 python:
 - 3.6
-script:
+before_install:
+- touch .env
+install:
 - python setup.py install
+- pip install -e ".[dev]"
+script:
+- black --check devbot
+- pylint devbot

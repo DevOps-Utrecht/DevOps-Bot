@@ -12,11 +12,11 @@ async def list_commands(*_args, **_kwargs):
     return_list = []
     category_list = COMMAND_CATEGORIES.keys()
 
-    for c in category_list:
-        category = c or "No category"
+    for cat in category_list:
+        category = cat or "No category"
         return_list.append(f"**{category}**")
 
-        for command in COMMAND_CATEGORIES[c]:
+        for command in COMMAND_CATEGORIES[cat]:
             name, aliases, func = command
 
             if func.__doc__:
