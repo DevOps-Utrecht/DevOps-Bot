@@ -75,10 +75,6 @@ async def echo_command(message_contents, *_args, **_kwargs):
 ## Required `.env` variables
 `TOKEN` sets the Discord API key, which you can get from [this website](https://discordapp.com/developers/applications/me).
 
-`DEFAULT_CHANNEL` sets the default channel id for the bot to use. 
-The channel id can be found by following the steps in [this discord support post](https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID
- "Discord support post")
-
 ## Optional `.env` variables
 
 `CONSOLE_LOGLEVEL` sets the loglevel of what log messages get sent to the console. This value can be `DEBUG`, `INFO`
@@ -90,5 +86,5 @@ The channel id can be found by following the steps in [this discord support post
 `DATABASE` sets the url to the database for the bot. A SQLite database will be created automatically if this variable is missing. 
 Using a different database than SQLite, might require installing additional dependencies.
 
-`REMINDER_CHANNEL` sets the default channel id. Any delayed message without a 
-specific channel passed will use this channel to post to.
+`REMINDER_CHANNEL` sets the default channel id. Any delayed message without a
+specific channel passed will use this channel to post to.   
