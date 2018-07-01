@@ -9,4 +9,4 @@ install:
 script:
 - black --check devbot
 - pylint devbot
-- diff -sq old_version.txt setup.py; if [[ $? -eq 0 ]]; then echo 1; fi; echo 0;
+- diff -sq CURRENT_VERSION setup.py; if [[ $? -eq 0 ]]; then echo 1; fi; echo 0;
