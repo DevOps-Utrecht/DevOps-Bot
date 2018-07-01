@@ -10,4 +10,4 @@ install:
 script:
 - black --check devbot
 - pylint devbot
-- 'if [ $TRAVIS_PULL_REQUEST != "false" ]; then diff -sq CURRENT_VERSION setup.py; if [[ $? -eq 0 ]]; then exit 1; fi; exit 0; fi;'
+- 'if [ $TRAVIS_PULL_REQUEST != "false" ]; then diff -sq CURRENT_VERSION devbot/__init__.py; if [[ $? -eq 0 ]]; then exit 1; fi; exit 0; fi;'
