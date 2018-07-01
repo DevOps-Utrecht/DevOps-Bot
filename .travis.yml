@@ -3,8 +3,10 @@ python:
 - 3.6
 before_install:
 - touch .env
+- git show master:devbot/__init__.py > CURRENT_VERSION
 install:
 - pip install -e ".[dev]"
 script:
 - black --check devbot
 - pylint devbot
+- diff -sq old_version.txt setup.py; if [[ $? -eq 0 ]]; then echo 1; fi; echo 0;
