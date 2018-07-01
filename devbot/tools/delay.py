@@ -22,13 +22,13 @@ async def delay_message(delay, message, channel=None):
         if DEFAULT_CHANNEL:
             channel = discord.Object(id=DEFAULT_CHANNEL)
         else:
-            raise ValueError(f"Default channel not set, channel cannot be None")
+            raise ValueError("Default channel not set, channel cannot be None")
 
     # If delay is a datetime return at given time
     if isinstance(delay, datetime.datetime):
         if delay < datetime.datetime.now():
             return "Time is in the past, dummy!"
-        job = SCHEDULER.add_job(
+        SCHEDULER.add_job(
             send_response, trigger="date", run_date=delay, args=[message, channel]
         )
         return
@@ -36,25 +36,25 @@ async def delay_message(delay, message, channel=None):
     elif isinstance(delay, datetime.time):
         if delay < datetime.datetime.now().time():
             return "Time is in the past, dummy!"
-        dt = datetime.combine(datetime.date.today(), delay)
-        job = SCHEDULER.add_job(
-            send_response, trigger="date", run_date=dt, args=[message, channel]
+        run_at = datetime.datetime.combine(datetime.date.today(), delay)
+        SCHEDULER.add_job(
+            send_response, trigger="date", run_date=run_at, args=[message, channel]
         )
         return
     # If delay is timedelta
     elif isinstance(delay, datetime.timedelta):
-        dt = datetime.datetime.now() + delay
-        job = SCHEDULER.add_job(
-            send_response, trigger="date", run_date=dt, args=[message, channel]
+        run_at = datetime.datetime.now() + delay
+        SCHEDULER.add_job(
+            send_response, trigger="date", run_date=run_at, args=[message, channel]
         )
         return
     # If we get an int take it as seconds
     elif isinstance(delay, int):
         if delay < 0:
             return "I cant delay into the past, dummy!"
-        dt = datetime.datetime.now() + datetime.timedelta(seconds=delay)
-        job = SCHEDULER.add_job(
-            send_response, trigger="date", run_date=dt, args=[message, channel]
+        run_at = datetime.datetime.now() + datetime.timedelta(seconds=delay)
+        SCHEDULER.add_job(
+            send_response, trigger="date", run_date=run_at, args=[message, channel]
         )
         return
     else:

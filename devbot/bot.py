@@ -2,16 +2,18 @@
     Main entry point for devbot.
 """
 
+import logging
 import os
+
 import discord
 import dotenv
-import logging
-import devbot.commands
-from devbot.database import db_url
-from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
-from devbot.tools.wrap import FileWrapper
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+
+import devbot.commands
+from devbot.database import DB_URL
+from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
+from devbot.tools.wrap import FileWrapper
 
 CLIENT = discord.Client()
 #: The main discord client.
@@ -21,10 +23,10 @@ SYMBOL = "!"
 #: The command symbol
 
 # Jobstore
-jobstores = {"default": SQLAlchemyJobStore(url=db_url)}
+JOBSTORES = {"default": SQLAlchemyJobStore(url=DB_URL)}
 
 # Setup apscheduler
-SCHEDULER = AsyncIOScheduler(jobstores=jobstores)
+SCHEDULER = AsyncIOScheduler(jobstores=JOBSTORES)
 
 
 @CLIENT.event
@@ -60,6 +62,7 @@ async def on_message(message):
 
 
 async def send_response(response, channel):
+    """ Send some kind of response to a channel. """
     if isinstance(response, discord.Embed):
         await CLIENT.send_message(channel, embed=response)
     elif isinstance(response, FileWrapper):
@@ -87,6 +90,7 @@ def main():
 
 
 def logging_setup():
+    """ Sane logging config. """
     file_level = os.environ.get("FILE_LOGLEVEL", logging.DEBUG)
     console_level = os.environ.get("CONSOLE_LOGLEVEL", logging.INFO)
 

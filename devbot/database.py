@@ -11,21 +11,19 @@ import dotenv
 dotenv.load_dotenv(".env")
 
 # Set database URL or use SQLite if none is given
-db_url = (
-    os.environ.get("DATABASE")
-    if os.environ.get("DATABASE")
-    else "sqlite:///database.sqlite"
-)
+DB_URL = os.environ.get("DATABASE", "sqlite:///database.sqlite")
 
-SQLAlchemyBase = declarative_base()
-engine = sa.create_engine(db_url, echo=False)
-Session = sessionmaker(bind=engine)
+SQLAlchemyBase = declarative_base()  # pylint: disable=invalid-name
+ENGINE = sa.create_engine(DB_URL, echo=False)
+Session = sessionmaker(bind=ENGINE)  # pylint: disable=invalid-name
 
 
 class User(SQLAlchemyBase):
+    """ Representation of a seen Discord user, unused. """
+
     __tablename__ = "user"
     # https://discordapp.com/developers/docs/resources/user
-    id = sa.Column(sa.String(32), primary_key=True)
+    id = sa.Column(sa.String(32), primary_key=True)  # pylint: disable=invalid-name
     username = sa.Column(sa.String(32))
     discriminator = sa.Column(sa.String(4))
     avatar = sa.Column(sa.String(32))
@@ -36,6 +34,8 @@ class User(SQLAlchemyBase):
 
 
 class XKCD(SQLAlchemyBase):
+    """ Representation of a seen xkcd comic. """
+
     __tablename__ = "xkcd"
     # https://xkcd.com/info.0.json
     num = sa.Column(sa.Integer(), primary_key=True)
@@ -51,4 +51,4 @@ class XKCD(SQLAlchemyBase):
     year = sa.Column(sa.String(4))
 
 
-SQLAlchemyBase.metadata.create_all(engine)
+SQLAlchemyBase.metadata.create_all(ENGINE)
