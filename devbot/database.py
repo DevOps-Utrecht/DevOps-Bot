@@ -43,7 +43,7 @@ class XKCD(SQLAlchemyBase):
     title = sa.Column(sa.String(32))
     safe_title = sa.Column(sa.String(32))
     alt = sa.Column(sa.String(256))
-    transcript = sa.Column(sa.String(32))
+    transcript = sa.Column(sa.String(2048))
     link = sa.Column(sa.String(32))
     news = sa.Column(sa.String(32))
     day = sa.Column(sa.String(2))
