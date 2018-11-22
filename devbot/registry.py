@@ -53,7 +53,7 @@ class Command(RegisteringDecorator):
     categories = COMMAND_CATEGORIES
 
     def __init__(self, name, category=None):
-        """ Store params and call super """
+        """ Store params and call super. """
         self.category = category
         super().__init__(name)
 
@@ -75,15 +75,12 @@ class CommandNotFoundError(Exception):
 
 
 class Keyword(RegisteringDecorator):
-    """
-        Decorator that registers it's function triggerable by keyword.
-        Keyword messages do not need to begin with a special character.
-    """
+    """ Decorator that registers it's function triggerable by keyword. """
 
     target_dict = KEYWORD_DICT
 
     def __init__(self, name):
-        """ Store params and call super """
+        """ Call super. """
         super().__init__(name)
 
     def __call__(self, func):

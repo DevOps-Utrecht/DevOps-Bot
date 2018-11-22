@@ -52,7 +52,7 @@ class XKCD(SQLAlchemyBase):
 
 
 class StringStates(SQLAlchemyBase):
-    """ Variables for the bot to keep track of """
+    """ Persistant string variables. """
 
     __tablename__ = "string_states"
     key = sa.Column(sa.String(32), primary_key=True)

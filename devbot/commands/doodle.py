@@ -5,7 +5,7 @@ from devbot.registry import Command, Keyword
 
 @Keyword(["https://doodle.com/poll/"])
 async def doodle_url(message_contents, *_args, **_kwargs):
-    """ Called when a message contains a Doodle poll URL and saves it to the database """
+    """ Called when a message contains a Doodle poll URL and saves it to the database. """
     doodle_url = [i for i in message_contents if "https://doodle.com/poll/" in i][0]
 
     session = db.Session()
@@ -17,7 +17,7 @@ async def doodle_url(message_contents, *_args, **_kwargs):
 
 @Command(["doodle"])
 async def doodle(*_args, **_kwargs):
-    """ Return the last registered Doodle URL """
+    """ Return the last registered Doodle URL. """
     session = db.Session()
     entry = session.query(db.StringStates).filter_by(key="doodle_url").first()
     session.close()
