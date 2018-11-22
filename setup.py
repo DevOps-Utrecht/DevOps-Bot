@@ -1,9 +1,10 @@
 from setuptools import setup
 from devbot import VERSION
+
 try:
     import pathlib
 except ImportError:
-    raise ImportError('Install requires Python>=3.4')
+    raise ImportError("Install requires Python>=3.4")
 
 
 required_dirs = ["logs"]
@@ -21,9 +22,7 @@ setup(
         "apscheduler",
     ],
     python_requires=">=3.6",
-    extras_require={
-        "dev": ["black", "pylint"],
-    },
+    extras_require={"dev": ["black", "pylint"]},
     packages=["devbot", "devbot.commands", "devbot.tools"],
     scripts=["scripts/xkcd_crawler.py"],
     zip_safe=False,

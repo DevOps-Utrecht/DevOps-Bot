@@ -58,4 +58,5 @@ class StringStates(SQLAlchemyBase):
     key = sa.Column(sa.String(32), primary_key=True)
     value = sa.Column(sa.String(64))
 
+
 SQLAlchemyBase.metadata.create_all(ENGINE)
