@@ -51,4 +51,11 @@ class XKCD(SQLAlchemyBase):
     year = sa.Column(sa.String(4))
 
 
+class StringStates(SQLAlchemyBase):
+    """ Variables for the bot to keep track of """
+
+    __tablename__ = "string_states"
+    key = sa.Column(sa.String(32), primary_key=True)
+    value = sa.Column(sa.String(64))
+
 SQLAlchemyBase.metadata.create_all(ENGINE)
