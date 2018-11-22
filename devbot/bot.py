@@ -12,7 +12,7 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 import devbot.commands
 from devbot.database import DB_URL
-from devbot.registry import COMMAND_DICT, safe_call, CommandNotFoundError
+from devbot.registry import COMMAND_DICT, KEYWORD_DICT, safe_call, CommandNotFoundError
 from devbot.tools.wrap import FileWrapper
 
 CLIENT = discord.Client()
@@ -38,14 +38,15 @@ async def on_ready():
 @CLIENT.event
 async def on_message(message):
     """ Process incoming message. """
+    if message.author == CLIENT.user:
+        return  # Prevent any self-activation.
+
+    response = None
+
     if message.content.startswith(SYMBOL):
         # Split message into command and list of the remainder.
         message_command, *message_contents = message.content.split()
 
-        if message.author == CLIENT.user:
-            return  # Prevent any self-activation.
-
-        response = None
         try:
             response = await safe_call(
                 COMMAND_DICT, message_command[1:], message_contents, message, CLIENT
@@ -55,10 +56,21 @@ async def on_message(message):
             LOGGER.debug("Command %s is unknown.", message_command[1:])
             return
 
-        if not response:
-            return
+    for keyword in KEYWORD_DICT.keys():
+        if keyword in message.content.upper():
 
-        await send_response(response, message.channel)
+            message_contents = message.content.split()
+
+            response = await safe_call(
+                KEYWORD_DICT, keyword, message_contents, message, CLIENT
+            )
+            LOGGER.info("keyword")
+            break
+
+    if not response:
+        return
+
+    await send_response(response, message.channel)
 
 
 async def send_response(response, channel):
