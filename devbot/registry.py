@@ -81,11 +81,10 @@ class Keyword(RegisteringDecorator):
     """
 
     target_dict = KEYWORD_DICT
-    
+
     def __init__(self, name):
         """ Store params and call super """
-        super().__init__(name)   
-
+        super().__init__(name)
 
     def __call__(self, func):
         """ Register command category and call super. """
