@@ -51,11 +51,11 @@ class XKCD(SQLAlchemyBase):
     year = sa.Column(sa.String(4))
 
 
-class StringStates(SQLAlchemyBase):
-    """ Persistant string variables. """
+class Doodle(SQLAlchemyBase):
+    """ Representation of a Doodle poll. """
 
-    __tablename__ = "string_states"
-    key = sa.Column(sa.String(32), primary_key=True)
-    value = sa.Column(sa.String(64))
+    __tablename__ = "doodle"
+    url = sa.Column(sa.String(64), primary_key=True)
+    deadline = sa.Column(sa.Date())
 
 SQLAlchemyBase.metadata.create_all(ENGINE)
