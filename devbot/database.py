@@ -58,4 +58,5 @@ class Doodle(SQLAlchemyBase):
     url = sa.Column(sa.String(64), primary_key=True)
     deadline = sa.Column(sa.Date())
 
+
 SQLAlchemyBase.metadata.create_all(ENGINE)

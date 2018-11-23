@@ -44,6 +44,7 @@ COMMAND_CATEGORIES = defaultdict(list)
 #: Dict for all registered keywords, maps uppercase keyword to functions
 KEYWORD_DICT = {}
 
+
 class Command(RegisteringDecorator):
     """
         Decorator that registers it's function as a usable command.
