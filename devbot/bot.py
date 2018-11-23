@@ -51,7 +51,7 @@ async def on_message(message):
             response = await safe_call(
                 COMMAND_DICT, message_command[1:], message_contents, message, CLIENT
             )
-            LOGGER.info("Command %s received.", message_command[1:])
+            LOGGER.info("command")
         except CommandNotFoundError:
             LOGGER.debug("Command %s is unknown.", message_command[1:])
             return
@@ -64,7 +64,7 @@ async def on_message(message):
             response = await safe_call(
                 KEYWORD_DICT, keyword, message_contents, message, CLIENT
             )
-            LOGGER.info("Keyword %s matched.", keyword)
+            LOGGER.info("keyword")
             break
 
     if not response:
