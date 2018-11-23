@@ -37,7 +37,7 @@ async def xkcd(message_contents, *_args, **_kwargs) -> str or discord.Embed:
                     # most recent comic from database
                     session = db.Session()
                     entry = (
-                        session.query(db.XKCD).order_by(db.XKCD.id.desc()).first()
+                        session.query(db.XKCD).order_by(db.XKCD.num.desc()).first()
                     )  # last is backwards first
                     session.close()
                     max_id = entry.num

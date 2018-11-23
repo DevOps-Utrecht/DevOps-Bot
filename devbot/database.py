@@ -55,7 +55,8 @@ class Doodle(SQLAlchemyBase):
     """ Representation of a Doodle poll. """
 
     __tablename__ = "doodle"
-    url = sa.Column(sa.String(64), primary_key=True)
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    url = sa.Column(sa.String(64), unique=True)
     deadline = sa.Column(sa.Date())
 
 SQLAlchemyBase.metadata.create_all(ENGINE)
