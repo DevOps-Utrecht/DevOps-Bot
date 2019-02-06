@@ -80,14 +80,6 @@ class Keyword(RegisteringDecorator):
 
     target_dict = KEYWORD_DICT
 
-    def __init__(self, name):
-        """ Call super. """
-        super().__init__(name)
-
-    def __call__(self, func):
-        """ Register command category and call super. """
-        return super().__call__(func)
-
 
 async def safe_call(target_dict, key, *args, **kwargs):
     """ Wrapper that 'safely' calls a function, it disables a function if it breaks. """
