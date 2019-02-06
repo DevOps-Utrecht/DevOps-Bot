@@ -6,8 +6,8 @@ before_install:
 - git fetch origin master
 - 'if [ $TRAVIS_PULL_REQUEST != "false" ]; then git show FETCH_HEAD:devbot/__init__.py > CURRENT_VERSION; fi'
 install:
-- pip install -e ".[dev]"
+- pipenv sync --dev
 script:
-- black --check devbot
-- pylint devbot
+- pipenv run black --check devbot
+- pipenv run pylint devbot
 - 'if [ $TRAVIS_PULL_REQUEST != "false" ]; then diff -sq CURRENT_VERSION devbot/__init__.py; if [[ $? -eq 0 ]]; then exit 1; fi; exit 0; fi;'
