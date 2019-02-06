@@ -28,7 +28,6 @@ async def doodle(*_args, **_kwargs):
         session.query(db.Doodle).order_by(db.Doodle.num.desc()).first()
     )  # last is backwards first
     session.close()
-    if entry:
-        return entry.url
-    else:
+    if not entry:
         return "No Doodle found"
+    return entry.url
