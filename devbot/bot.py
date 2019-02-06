@@ -56,7 +56,7 @@ async def on_message(message):
             LOGGER.debug("Command %s is unknown.", message_command[1:])
             return
 
-    for keyword in KEYWORD_DICT.keys():
+    for keyword in KEYWORD_DICT:
         if keyword in message.content.upper():
 
             message_contents = message.content.split()
